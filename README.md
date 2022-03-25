@@ -1,3 +1,1 @@
-Practica 1:
-
-Verdugo Rodriguez Jesus Daniel 417092056
+Practica 1
