@@ -38,10 +38,33 @@ async def get_user(user_id):
     if user:
         return UserRequestModel(
             id=user.id,
-            name=user.name
+            name=user.name,
+            email=user.email,
+            password=user.password,
+            role=user.role
         )
     else:
         return HTTPException(404, 'User not found')
+
+
+@app.get('/user/login/{user_email},{user_password}')
+async def login(user_email, user_password):
+    user = User.select().where(
+        User.email == user_email,
+        User.password == user_password
+    ).first()
+
+    if user:
+        return UserRequestModel(
+            id=user.id,
+            name=user.name,
+            email=user.email,
+            password=user.password,
+            role=user.role
+        )
+    else:
+
+        return HTTPException(404, 'Credenciales no válidas')
 
 
 @app.put('/user/{user_id}')
