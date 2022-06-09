@@ -9,9 +9,6 @@ class UserRequestModel(BaseModel):
     role: int
 
 
-class UserResponseModel(UserRequestModel):
-    id: int
-    name: str
+class LoginRquestModel(BaseModel):
     email: str
     password: str
-    role: int

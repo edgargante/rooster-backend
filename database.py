@@ -11,7 +11,7 @@ database = peewee.MySQLDatabase(
 
 
 class User(Model):
-    id = IntegerField()
+    id = IntegerField(primary_key=True)
     name = CharField(max_length=50)
     email = CharField(max_length=50)
     password = CharField(max_length=50)

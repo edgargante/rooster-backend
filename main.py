@@ -22,13 +22,25 @@ def shutdown():
 @app.post('/user')
 async def create_user(user_request: UserRequestModel):
     user = User.create(
-        id=user_request.id,
         name=user_request.name,
         email=user_request.email,
         password=user_request.password,
         role=user_request.role
     )
-    return user_request
+    return user.__data__
+
+
+@app.post('/login')
+async def login_user(login_request: LoginRquestModel):
+    user = User.select().where(
+        User.email == login_request.email,
+        User.password == login_request.password
+    ).first()
+
+    if user:
+        return user.__data__
+    else:
+        return HTTPException(404, 'User not found')
 
 
 @app.get('/user/{user_id}')
@@ -47,24 +59,6 @@ async def get_user(user_id):
         return HTTPException(404, 'User not found')
 
 
-@app.get('/user/login/{user_email},{user_password}')
-async def login(user_email, user_password):
-    user = User.select().where(
-        User.email == user_email,
-        User.password == user_password
-    ).first()
-
-    if user:
-        return UserRequestModel(
-            id=user.id,
-            name=user.name,
-            email=user.email,
-            password=user.password,
-            role=user.role
-        )
-    else:
-
-        return HTTPException(404, 'Credenciales no válidas')
 
 
 @app.put('/user/{user_id}')
